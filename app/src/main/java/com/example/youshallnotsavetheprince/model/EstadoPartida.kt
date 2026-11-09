@@ -8,5 +8,7 @@ data class EstadoPartida(
     val defesas: List<Defesa> = emptyList(),
     val inimigos: List<Inimigo> = emptyList(),
     val derrotados: Int = 0,
+    val proximoIdDefesa: Int = 1,
+    val proximoIdInimigo: Int = 1,
     val situacao: SituacaoPartida = SituacaoPartida.EM_ANDAMENTO
 )
