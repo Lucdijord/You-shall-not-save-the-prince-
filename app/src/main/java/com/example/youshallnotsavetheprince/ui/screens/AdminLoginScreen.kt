@@ -24,6 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.youshallnotsavetheprince.ui.componentes.CartaoJogo
+import com.example.youshallnotsavetheprince.ui.theme.Ouro
+import com.example.youshallnotsavetheprince.ui.theme.TextoSecundario
 import com.example.youshallnotsavetheprince.viewmodel.AdminUiState
 
 @Composable
@@ -34,47 +37,33 @@ fun AdminLoginScreen(
     modifier: Modifier = Modifier
 ) {
     var pin by rememberSaveable { mutableStateOf("") }
-
     Column(
-        modifier = modifier.fillMaxSize().padding(24.dp),
+        modifier = modifier.fillMaxSize().padding(20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("🔐 Administração", style = MaterialTheme.typography.headlineMedium)
+        Text("ÁREA RESTRITA", color = Ouro, style = MaterialTheme.typography.labelMedium)
         Spacer(Modifier.height(8.dp))
-        Text(
-            "Acesso didático para gerenciar os presets de partida.",
-            style = MaterialTheme.typography.bodySmall
-        )
-        Spacer(Modifier.height(16.dp))
-
-        OutlinedTextField(
-            value = pin,
-            onValueChange = { pin = it.filter { c -> c.isDigit() }.take(8) },
-            label = { Text("PIN") },
-            singleLine = true,
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        if (estado.carregando) {
-            Spacer(Modifier.height(8.dp))
-            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-        }
-
-        estado.mensagem?.let {
-            Spacer(Modifier.height(8.dp))
-            Text(it, color = MaterialTheme.colorScheme.error)
-        }
-
-        Spacer(Modifier.height(16.dp))
-        Button(
-            onClick = { onEntrar(pin) },
-            enabled = pin.isNotBlank(),
-            modifier = Modifier.fillMaxWidth()
-        ) { Text("Entrar") }
+        Text("Administração", style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(8.dp))
-        OutlinedButton(onClick = onVoltar, modifier = Modifier.fillMaxWidth()) { Text("Voltar") }
+        Text("Gerencie os presets que definem o início de cada batalha.", style = MaterialTheme.typography.bodyMedium, color = TextoSecundario)
+        Spacer(Modifier.height(24.dp))
+        CartaoJogo(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                OutlinedTextField(
+                    value = pin,
+                    onValueChange = { pin = it.filter { c -> c.isDigit() }.take(8) },
+                    label = { Text("PIN de acesso") },
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                if (estado.carregando) LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                estado.mensagem?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+                Button(onClick = { onEntrar(pin) }, enabled = pin.isNotBlank(), modifier = Modifier.fillMaxWidth().height(50.dp)) { Text("ENTRAR") }
+                OutlinedButton(onClick = onVoltar, modifier = Modifier.fillMaxWidth()) { Text("VOLTAR") }
+            }
+        }
     }
 }

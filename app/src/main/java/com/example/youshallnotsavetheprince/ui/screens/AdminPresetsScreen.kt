@@ -28,6 +28,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.youshallnotsavetheprince.ui.componentes.CabecalhoJogo
+import com.example.youshallnotsavetheprince.ui.theme.Ouro
+import com.example.youshallnotsavetheprince.ui.theme.TextoSecundario
 import com.example.youshallnotsavetheprince.model.PresetPartida
 import com.example.youshallnotsavetheprince.viewmodel.AdminUiState
 
@@ -53,7 +56,7 @@ fun AdminPresetsScreen(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
-            Text("Presets de partida", style = MaterialTheme.typography.headlineSmall)
+            CabecalhoJogo("ÁREA ADMINISTRATIVA", "Presets de partida", "Configure os recursos iniciais das próximas batalhas.")
         }
 
         if (estado.carregando) {
@@ -69,7 +72,7 @@ fun AdminPresetsScreen(
                     modifier = Modifier.padding(12.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text("Novo preset", style = MaterialTheme.typography.titleMedium)
+                    Text("NOVO PRESET", style = MaterialTheme.typography.labelMedium, color = Ouro)
                     OutlinedTextField(
                         value = nome,
                         onValueChange = { nome = it },
@@ -109,7 +112,7 @@ fun AdminPresetsScreen(
                             }
                         },
                         modifier = Modifier.fillMaxWidth()
-                    ) { Text("Criar preset") }
+                    ) { Text("CRIAR PRESET") }
                 }
             }
         }
@@ -139,10 +142,10 @@ fun AdminPresetsScreen(
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(preset.nome, style = MaterialTheme.typography.titleMedium)
-                        Text("${preset.moedasIniciais} moedas • ${preset.vidaInicialCastelo} vidas")
+                        Text("${preset.moedasIniciais} moedas • ${preset.vidaInicialCastelo} vidas", color = TextoSecundario)
                     }
                     TextButton(onClick = { emEdicao = preset }) { Text("Editar") }
-                    TextButton(onClick = { onExcluir(preset.id) }) { Text("Excluir") }
+                    TextButton(onClick = { onExcluir(preset.id) }) { Text("Excluir", color = MaterialTheme.colorScheme.error) }
                 }
             }
         }
