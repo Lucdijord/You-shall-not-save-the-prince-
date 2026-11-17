@@ -152,7 +152,7 @@ class JogoViewModel(
                 val bonus = valor.coerceIn(MotorTurnos.BONUS_MINIMO, MotorTurnos.BONUS_MAXIMO)
                 BonusCarregado(bonus, "Bônus online: +$bonus moedas")
             },
-            onFailure = { BonusCarregado(0, "Sem conexão: bônus padrão +0") }
+            onFailure = { BonusCarregado(0, "Bônus online indisponível: usado +0") }
         )
     }
 

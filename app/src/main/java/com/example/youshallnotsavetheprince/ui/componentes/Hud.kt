@@ -36,7 +36,7 @@ fun Hud(
             }
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text("❤️ Castelo: $vidaCastelo")
-                Text("🪙 Moedas: $moedas")
+                Text("Moedas: $moedas")
             }
             Text("Inimigos derrotados: $derrotados")
             Text(textoBonus, style = MaterialTheme.typography.bodySmall)

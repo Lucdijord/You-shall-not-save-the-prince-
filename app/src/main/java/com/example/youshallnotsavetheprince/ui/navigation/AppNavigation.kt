@@ -58,6 +58,7 @@ fun AppNavigation(
     onComprar: (TipoDefesa, Posicao) -> Unit,
     onMelhorar: (Int) -> Unit,
     onProximoTurno: () -> Unit,
+    onSairPartida: () -> Unit,
     onRenomearResultado: (Long, String) -> Unit,
     onExcluirResultado: (Long) -> Unit,
     onEntrarAdmin: (String) -> Unit,
@@ -182,7 +183,10 @@ fun AppNavigation(
                         onComprar = onComprar,
                         onMelhorar = onMelhorar,
                         onProximoTurno = onProximoTurno,
-                        onVoltar = { navController.popBackStack() }
+                        onVoltar = {
+                            onSairPartida()
+                            navController.popBackStack()
+                        }
                     )
                 }
 

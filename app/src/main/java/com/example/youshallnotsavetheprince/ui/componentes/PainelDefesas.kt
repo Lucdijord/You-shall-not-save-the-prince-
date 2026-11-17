@@ -38,7 +38,7 @@ fun PainelDefesas(
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 TipoDefesa.entries.forEach { tipo ->
                     val preco = CatalogoJogo.defesa(tipo).preco
-                    val rotulo = "${tipo.emoji()} ${tipo.rotulo()}\n$preco 🪙"
+                    val rotulo = "${tipo.emoji()} ${tipo.rotulo()}\n$preco moedas"
                     if (tipo == tipoSelecionado) {
                         Button(
                             onClick = { onSelecionarTipo(tipo) },

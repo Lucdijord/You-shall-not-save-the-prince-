@@ -117,7 +117,7 @@ class JogoViewModelTest {
         val estado = vm.uiState.value
         assertEquals(100, estado.partida?.moedas)
         assertEquals(0, estado.bonusMoedasAplicado)
-        assertEquals("Sem conexão: bônus padrão +0", estado.mensagem)
+        assertEquals("Bônus online indisponível: usado +0", estado.mensagem)
     }
 
     @Test
