@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "612798417759",
+    "project_id": "you-shall-not-save-the-prince",
+    "storage_bucket": "you-shall-not-save-the-prince.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:612798417759:android:877ede23f15a55b702c4ea",
+        "android_client_info": {
+          "package_name": "com.example.youshallnotsavetheprince"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM18PeVQ1ofVfhKYQSAzHMywzvqsQgtuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

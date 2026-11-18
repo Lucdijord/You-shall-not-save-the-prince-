@@ -7,5 +7,6 @@ data class FaseConfig(
     val caminho: List<Posicao>,
     val entradas: List<EntradaOnda>,
     val moedasIniciais: Int = 100,
-    val vidaInicialCastelo: Int = 10
+    val vidaInicialCastelo: Int = 10,
+    val limiteTurnos: Int = 25
 )
