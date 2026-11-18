@@ -12,6 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import kotlinx.coroutines.delay
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.example.youshallnotsavetheprince.model.Posicao
 import com.example.youshallnotsavetheprince.model.SituacaoPartida
 import com.example.youshallnotsavetheprince.model.TipoDefesa
+import com.example.youshallnotsavetheprince.ui.componentes.CabecalhoJogo
 import com.example.youshallnotsavetheprince.ui.componentes.Hud
 import com.example.youshallnotsavetheprince.ui.componentes.PainelDefesas
 import com.example.youshallnotsavetheprince.ui.componentes.Tabuleiro
@@ -33,9 +36,16 @@ fun JogoScreen(
     onMelhorar: (Int) -> Unit,
     onProximoTurno: () -> Unit,
     onVoltar: () -> Unit,
+    onLimparMensagem: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val partida = estado.partida
+    LaunchedEffect(estado.mensagem) {
+        if (estado.mensagem != null) {
+            delay(3000)
+            onLimparMensagem()
+        }
+    }
     var tipoSelecionado by remember(partida?.config?.numero) { mutableStateOf(estado.defesaSelecionada) }
     var idDefesaSelecionada by remember(partida?.config?.numero) { mutableStateOf<Int?>(null) }
 
@@ -49,10 +59,12 @@ fun JogoScreen(
         if (partida == null) {
             Text(if (estado.carregando) "Carregando partida..." else "Nenhuma partida em andamento.")
             estado.mensagem?.let { Text(it, color = MaterialTheme.colorScheme.error) }
-            Button(onClick = onVoltar, modifier = Modifier.fillMaxWidth()) { Text("Voltar") }
+            Button(onClick = onVoltar, modifier = Modifier.fillMaxWidth()) { Text("VOLTAR") }
         } else {
             val emAndamento = partida.situacao == SituacaoPartida.EM_ANDAMENTO
             val defesaSelecionada = partida.defesas.firstOrNull { it.id == idDefesaSelecionada }
+
+            CabecalhoJogo("EM COMBATE", "Defesa do castelo", "Posicione suas tropas e avance os turnos para enfrentar as ondas.")
 
             Hud(
                 fase = partida.config.numero,
@@ -67,7 +79,7 @@ fun JogoScreen(
             estado.mensagem?.let { mensagem ->
                 Text(
                     mensagem,
-                    color = if (mensagem.startsWith("Bônus online:")) {
+                    color = if ((mensagem.startsWith("Bônus online:") || mensagem.startsWith("Bônus online indisponível:"))) {
                         MaterialTheme.colorScheme.onSurfaceVariant
                     } else {
                         MaterialTheme.colorScheme.error
@@ -105,13 +117,13 @@ fun JogoScreen(
 
             if (emAndamento) {
                 Button(onClick = onProximoTurno, modifier = Modifier.fillMaxWidth()) {
-                    Text("Próximo turno ▶")
+                    Text("AVANÇAR TURNO")
                 }
             } else {
                 Text("Partida encerrada.", style = MaterialTheme.typography.titleMedium)
             }
 
-            OutlinedButton(onClick = onVoltar, modifier = Modifier.fillMaxWidth()) { Text("Voltar") }
+            OutlinedButton(onClick = onVoltar, modifier = Modifier.fillMaxWidth()) { Text("VOLTAR") }
         }
     }
 }

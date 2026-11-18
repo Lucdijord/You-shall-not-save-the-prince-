@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
                     onComprar = jogo::comprar,
                     onMelhorar = jogo::melhorar,
                     onProximoTurno = jogo::proximoTurno,
+                    onLimparMensagem = jogo::limparMensagem,
                     onSairPartida = jogo::sairDaPartida,
                     onRenomearResultado = jogo::renomearResultado,
                     onExcluirResultado = jogo::excluirResultado,

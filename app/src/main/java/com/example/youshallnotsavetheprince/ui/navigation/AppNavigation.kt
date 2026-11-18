@@ -1,6 +1,15 @@
 package com.example.youshallnotsavetheprince.ui.navigation
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.res.painterResource
+import com.example.youshallnotsavetheprince.R
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TopAppBarDefaults
+import com.example.youshallnotsavetheprince.ui.theme.Ouro
+import com.example.youshallnotsavetheprince.ui.theme.FundoEscuro
+import com.example.youshallnotsavetheprince.ui.theme.Superficie
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
@@ -59,6 +68,7 @@ fun AppNavigation(
     onMelhorar: (Int) -> Unit,
     onProximoTurno: () -> Unit,
     onSairPartida: () -> Unit,
+    onLimparMensagem: () -> Unit = {},
     onRenomearResultado: (Long, String) -> Unit,
     onExcluirResultado: (Long) -> Unit,
     onEntrarAdmin: (String) -> Unit,
@@ -108,20 +118,22 @@ fun AppNavigation(
     }
 
     val itensDrawer = listOf(
-        Rotas.INICIO to "🏰 Início",
-        Rotas.FASES to "⚔️ Fases",
-        Rotas.HISTORICO to "📜 Histórico",
-        Rotas.ADMIN_PRESETS to "🔐 Administração"
+        Rotas.INICIO to "Início",
+        Rotas.FASES to "Fases",
+        Rotas.HISTORICO to "Histórico",
+        Rotas.ADMIN_PRESETS to "Administração"
     )
 
     ModalNavigationDrawer(
         modifier = modifier,
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
+            ModalDrawerSheet(drawerContainerColor = Superficie) {
                 Text(
-                    "You Shall Not Save the Prince",
-                    modifier = Modifier.padding(16.dp)
+                    "YOU SHALL NOT SAVE THE PRINCE",
+                    modifier = Modifier.padding(20.dp),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Ouro
                 )
                 itensDrawer.forEach { (rota, rotulo) ->
                     val selecionado = rotaAtual == rota ||
@@ -140,12 +152,14 @@ fun AppNavigation(
         }
     ) {
         Scaffold(
+            containerColor = FundoEscuro,
             topBar = {
                 TopAppBar(
-                    title = { Text(tituloDaRota(rotaAtual)) },
+                    title = { Text(tituloDaRota(rotaAtual), style = MaterialTheme.typography.titleMedium) },
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Superficie, titleContentColor = Ouro),
                     navigationIcon = {
                         IconButton(onClick = { escopo.launch { drawerState.open() } }) {
-                            Text("☰", fontSize = 22.sp)
+                            Image(painter = painterResource(R.drawable.icon_menu), contentDescription = "Abrir menu", modifier = Modifier.size(24.dp))
                         }
                     }
                 )
@@ -183,6 +197,7 @@ fun AppNavigation(
                         onComprar = onComprar,
                         onMelhorar = onMelhorar,
                         onProximoTurno = onProximoTurno,
+                        onLimparMensagem = onLimparMensagem,
                         onVoltar = {
                             onSairPartida()
                             navController.popBackStack()

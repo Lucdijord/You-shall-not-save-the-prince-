@@ -1,5 +1,9 @@
 package com.example.youshallnotsavetheprince.ui.screens
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.res.painterResource
+import com.example.youshallnotsavetheprince.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +28,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.youshallnotsavetheprince.ui.componentes.CabecalhoJogo
+import com.example.youshallnotsavetheprince.ui.theme.Ouro
+import com.example.youshallnotsavetheprince.ui.theme.TextoSecundario
 import com.example.youshallnotsavetheprince.model.ResultadoPartida
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -45,7 +52,7 @@ fun HistoricoScreen(
         modifier = modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Text("Histórico de partidas", style = MaterialTheme.typography.headlineSmall)
+        CabecalhoJogo("REGISTRO DE CAMPANHAS", "Histórico de batalhas", "Suas vitórias e derrotas ficam registradas aqui.")
         mensagem?.let { Text(it, color = MaterialTheme.colorScheme.error) }
 
         if (resultados.isEmpty()) {
@@ -60,11 +67,20 @@ fun HistoricoScreen(
                 items(resultados, key = { it.id }) { resultado ->
                     Card(modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.padding(12.dp)) {
-                            val situacao = if (resultado.vitoria) "🏆 Vitória" else "💀 Derrota"
-                            Text(
-                                "$situacao — Fase ${resultado.fase}",
-                                style = MaterialTheme.typography.titleMedium
-                            )
+                            val situacao = if (resultado.vitoria) "VITÓRIA" else "DERROTA"
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Image(
+                                    painter = painterResource(if (resultado.vitoria) R.drawable.icon_trofeu else R.drawable.icon_escudeiro),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(28.dp)
+                                )
+                                Text(
+                                    "$situacao — Fase ${resultado.fase}",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = if (resultado.vitoria) Ouro else MaterialTheme.colorScheme.error,
+                                    modifier = Modifier.padding(start = 8.dp)
+                                )
+                            }
                             Text("Jogador: ${resultado.nomeJogador}")
                             Text(
                                 "Pontos: ${resultado.pontos} • Turnos: ${resultado.turnos} " +
@@ -72,11 +88,12 @@ fun HistoricoScreen(
                             )
                             Text(
                                 formato.format(Date(resultado.registradoEmMillis)),
-                                style = MaterialTheme.typography.bodySmall
+                                style = MaterialTheme.typography.bodySmall,
+                                color = TextoSecundario
                             )
                             Row {
                                 TextButton(onClick = { emEdicao = resultado }) { Text("Renomear") }
-                                TextButton(onClick = { onExcluir(resultado.id) }) { Text("Excluir") }
+                                TextButton(onClick = { onExcluir(resultado.id) }) { Text("Excluir", color = MaterialTheme.colorScheme.error) }
                             }
                         }
                     }

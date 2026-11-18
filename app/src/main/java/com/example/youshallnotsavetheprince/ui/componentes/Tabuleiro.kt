@@ -8,14 +8,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.youshallnotsavetheprince.R
 import com.example.youshallnotsavetheprince.model.Defesa
 import com.example.youshallnotsavetheprince.model.FaseConfig
 import com.example.youshallnotsavetheprince.model.Inimigo
@@ -23,24 +28,24 @@ import com.example.youshallnotsavetheprince.model.Posicao
 import com.example.youshallnotsavetheprince.model.TipoDefesa
 import com.example.youshallnotsavetheprince.model.TipoInimigo
 
-fun TipoDefesa.emoji(): String = when (this) {
-    TipoDefesa.GOBLIN -> "👺"
-    TipoDefesa.ESQUELETO -> "💀"
-    TipoDefesa.OGRO -> "👹"
-}
-
 fun TipoDefesa.rotulo(): String = when (this) {
     TipoDefesa.GOBLIN -> "Goblin"
     TipoDefesa.ESQUELETO -> "Esqueleto"
     TipoDefesa.OGRO -> "Ogro"
 }
 
-fun TipoInimigo.emoji(): String = when (this) {
-    TipoInimigo.SOLDADO -> "🗡️"
-    TipoInimigo.ESCUDEIRO -> "🛡️"
-    TipoInimigo.CORREDOR -> "🏃"
-    TipoInimigo.CAVALEIRO -> "🐴"
-    TipoInimigo.PRINCESA -> "👸"
+fun TipoDefesa.icone(): Int = when (this) {
+    TipoDefesa.GOBLIN -> R.drawable.icon_goblin
+    TipoDefesa.ESQUELETO -> R.drawable.icon_esqueleto
+    TipoDefesa.OGRO -> R.drawable.icon_ogro
+}
+
+fun TipoInimigo.icone(): Int = when (this) {
+    TipoInimigo.SOLDADO -> R.drawable.icon_soldado
+    TipoInimigo.ESCUDEIRO -> R.drawable.icon_escudeiro
+    TipoInimigo.CORREDOR -> R.drawable.icon_corredor
+    TipoInimigo.CAVALEIRO -> R.drawable.icon_cavaleiro
+    TipoInimigo.PRINCESA -> R.drawable.icon_princesa
 }
 
 @Composable
@@ -52,7 +57,7 @@ fun Tabuleiro(
     onCelulaClick: (Posicao) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.fillMaxWidth().border(2.dp, Color(0xFF3E2723))) {
+    Column(modifier = modifier.fillMaxWidth().border(2.dp, Color(0xFFB48C4F))) {
         for (linha in 0 until config.linhas) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 for (coluna in 0 until config.colunas) {
@@ -87,7 +92,7 @@ private fun CelulaTabuleiro(
     modifier: Modifier = Modifier
 ) {
     val fundo = if (noCaminho) Color(0xFFD7B98E) else Color(0xFF81C784)
-    val corBorda = if (selecionada) MaterialTheme.colorScheme.primary else Color(0x33000000)
+    val corBorda = if (selecionada) MaterialTheme.colorScheme.primary else Color(0x550E2418)
 
     Box(
         modifier = modifier
@@ -101,16 +106,28 @@ private fun CelulaTabuleiro(
             val primeiro = inimigos.first()
             val extra = if (inimigos.size > 1) " +${inimigos.size - 1}" else ""
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(primeiro.tipo.emoji(), fontSize = 20.sp)
-                Text("♥${primeiro.vida}$extra", fontSize = 10.sp, color = Color.Black)
+                Image(
+                    painter = painterResource(primeiro.tipo.icone()),
+                    contentDescription = primeiro.tipo.name,
+                    modifier = Modifier.size(26.dp)
+                )
+                Text("PV ${primeiro.vida}$extra", fontSize = 9.sp, color = Color(0xFF182015))
             }
         } else if (defesa != null) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(defesa.tipo.emoji(), fontSize = 20.sp)
-                Text("Nv ${defesa.nivel}", fontSize = 10.sp, color = Color.Black)
+                Image(
+                    painter = painterResource(defesa.tipo.icone()),
+                    contentDescription = defesa.tipo.rotulo(),
+                    modifier = Modifier.size(28.dp)
+                )
+                Text("Nv ${defesa.nivel}", fontSize = 10.sp, color = Color(0xFF182015))
             }
         } else if (castelo) {
-            Text("🏰", fontSize = 22.sp)
+            Image(
+                painter = painterResource(R.drawable.icon_castelo),
+                contentDescription = "Castelo",
+                modifier = Modifier.size(34.dp)
+            )
         }
     }
 }
